@@ -1,8 +1,10 @@
+import { Grid } from '@mantine/core'
 import React, { useEffect, useState } from 'react';
 import useForm from '../../hooks/form.js';
 
 import { v4 as uuid } from 'uuid';
-import { Header } from '../Header';
+import { AppNavbar } from '../Navbar';
+import { AppHeader } from '../Header';
 import { Form } from '../Form/index.jsx';
 import { List } from '../List/index.jsx';
 
@@ -51,9 +53,16 @@ const ToDo = () => {
 
   return (
     <>
-      <Header incomplete={incomplete}/>
-      <Form handleChange={handleChange} handleSubmit={handleSubmit} defaultValues={defaultValues} />
-      <List list={list} toggleComplete={toggleComplete} />
+      <AppNavbar />
+      <AppHeader incomplete={incomplete} />
+      <Grid>
+        <Grid.Col xs={12} sm={4}>
+          <Form handleChange={handleChange} handleSubmit={handleSubmit} defaultValues={defaultValues} />
+        </Grid.Col>
+        <Grid.Col xs={12} sm={8}>
+          <List list={list} toggleComplete={toggleComplete} />
+        </Grid.Col>
+      </Grid>
     </>
   );
 };
