@@ -1,4 +1,5 @@
-import { useContext } from "react"
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useContext, useEffect } from "react"
 import { SettingsContext } from "../../Context/settings"
 import { Card, Header, NumberInput, Select, Switch, Text } from '@mantine/core'
 import { IconSettings } from '@tabler/icons'
@@ -9,9 +10,13 @@ export const SettingsUI = () => {
     showComplete, setShowComplete,
     itemsPerPage, setItemsPerPage,
     sort, setSort,
+    list, setList
   } = useContext(SettingsContext)
 
-
+  useEffect(() => {
+    let sortedList = list.sort((a,b) => a[sort] < b[sort] ? -1 : 1);
+    setList(sortedList)
+  }, [sort])
 
   return (
     <>

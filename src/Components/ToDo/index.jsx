@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Grid } from '@mantine/core'
 import React, { useContext, useEffect } from 'react';
 
@@ -11,23 +12,19 @@ import './ToDo.scss';
 const ToDo = () => {
 
   const {
-    list, setList,
+    list,
     incomplete, setIncomplete,
-    sort
   } = useContext(SettingsContext)
 
   useEffect(() => {
     let incompleteCount = list.filter(item => !item.complete).length;
     setIncomplete(incompleteCount);
     document.title = `To Do List: ${incomplete}`;
-    // linter will want 'incomplete' added to dependency array unnecessarily. 
-    // disable code used to avoid linter warning 
-    // eslint-disable-next-line react-hooks/exhaustive-deps 
   }, [list]);
 
   return (
     <>
-      <ToDoHeader incomplete={incomplete} />
+      <ToDoHeader incomplete={incomplete}/>
       <Grid className='todo-body'>
         <Grid.Col xs={12} sm={4}>
           <Form />

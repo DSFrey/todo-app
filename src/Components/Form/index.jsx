@@ -5,14 +5,16 @@ import useForm from "../../hooks/form";
 import { Button, Card, Slider, Text, TextInput } from '@mantine/core'
 
 export const Form = () => {
-  const { list, setList, defaultValues } = useContext(SettingsContext)
+  const { list, setList, sort, defaultValues } = useContext(SettingsContext)
   const { handleChange, handleSubmit } = useForm(addItem, defaultValues);
 
   function addItem(item) {
     item.id = uuid();
     item.complete = false;
     console.log('item', item);
-    setList([...list, item]);
+    let newList = [...list, item]
+    newList.sort((a,b) => a[sort] < b[sort] ? -1 : 1)
+    setList(newList);
   }
 
   return (

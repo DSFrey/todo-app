@@ -17,7 +17,7 @@ export const ToDoHeader = (props) => {
   const { classes } = useStyles();
   return (
     <Header data-testid="todo-header">
-      <h1 data-testid="todo-h1" className={classes.h1}>To Do List: {props.incomplete} items pending</h1>
+      <h1 data-testid="todo-h1" className={classes.h1}>To Do List: {props.incomplete} items pending, sort:{props.sort}</h1>
     </Header>
   )
 }
