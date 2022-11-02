@@ -1,7 +1,6 @@
-import { Grid, Footer } from '@mantine/core'
+import { Grid } from '@mantine/core'
 import React, { useContext, useEffect } from 'react';
 
-import { AppNavbar } from '../Navbar';
 import { AppHeader } from '../Header';
 import { Form } from '../Form/index.jsx';
 import { List } from '../List/index.jsx';
@@ -24,7 +23,6 @@ const ToDo = () => {
 
   return (
     <>
-      <AppNavbar />
       <AppHeader incomplete={incomplete} />
       <Grid className='todo-body'>
         <Grid.Col xs={12} sm={4}>
@@ -34,7 +32,6 @@ const ToDo = () => {
           <List />
         </Grid.Col>
       </Grid>
-      <Footer>&copy; 2022 Code Fellows / Daniel Frey</Footer>
     </>
   );
 };
