@@ -1,0 +1,30 @@
+.mantine-Paper-root {
+  margin: 1rem 0;
+}
+
+.task-title {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+
+  .mantine-Text-root {
+    font-size: large;
+    font-weight:500;
+    margin: 0.25rem;
+  }
+
+  .mantine-Badge-root {
+    margin: 0.5rem;
+  }
+}
+
+.task-body {
+  font-size: large;
+  padding: 1rem 1rem 0;
+}
+
+.task-difficulty {
+  display: flex;
+  justify-content: end;
+  padding: 1rem;
+}

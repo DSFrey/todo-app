@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-const useForm = (callback, defaultValues={}) => {
+const useForm = (callback, defaultValues = {}) => {
 
   const [values, setValues] = useState({});
 
@@ -10,9 +10,16 @@ const useForm = (callback, defaultValues={}) => {
   };
 
   const handleChange = (event) => {
-    event.persist();
+    let name, value
+    console.log(typeof event)
+    if (typeof event === 'object') {
+      name = event.target.name
+      value = event.target.value
+    } else {
+      name = 'difficulty';
+      value = event;
+    }
 
-    let { name, value } = event.target;
     if (parseInt(value)) {
       value = parseInt(value);
     }
@@ -20,8 +27,8 @@ const useForm = (callback, defaultValues={}) => {
     setValues(values => ({ ...values, [name]: value }));
   };
 
-  useEffect( () => {
-    setValues( defaultValues );
+  useEffect(() => {
+    setValues(defaultValues);
   }, [defaultValues]);
 
   return {
