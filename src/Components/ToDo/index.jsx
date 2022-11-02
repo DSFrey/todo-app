@@ -1,7 +1,7 @@
 import { Grid } from '@mantine/core'
 import React, { useContext, useEffect } from 'react';
 
-import { AppHeader } from '../Header';
+import { ToDoHeader } from '../ToDoHeader';
 import { Form } from '../Form/index.jsx';
 import { List } from '../List/index.jsx';
 import { SettingsContext } from '../../Context/settings.jsx';
@@ -10,7 +10,11 @@ import './ToDo.scss';
 
 const ToDo = () => {
 
-  const { list, incomplete, setIncomplete } = useContext(SettingsContext)
+  const {
+    list, setList,
+    incomplete, setIncomplete,
+    sort
+  } = useContext(SettingsContext)
 
   useEffect(() => {
     let incompleteCount = list.filter(item => !item.complete).length;
@@ -23,7 +27,7 @@ const ToDo = () => {
 
   return (
     <>
-      <AppHeader incomplete={incomplete} />
+      <ToDoHeader incomplete={incomplete} />
       <Grid className='todo-body'>
         <Grid.Col xs={12} sm={4}>
           <Form />

@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import {Footer} from '@mantine/core'
 import ToDo from './Components/ToDo';
 import { AppNavbar } from './Components/Navbar';
-import { Settings } from './Components/Settings';
+import { SettingsUI } from './Components/SettingsUI';
 
 
 export const App = () => {
@@ -17,7 +17,7 @@ export const App = () => {
         />
         <Route
           exact path='/settings'
-          element={<Settings />}
+          element={<SettingsUI />}
         />
       </Routes>
       <Footer>&copy; 2022 Code Fellows / Daniel Frey</Footer>

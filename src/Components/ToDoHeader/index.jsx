@@ -13,7 +13,7 @@ const useStyles = createStyles((theme) => ({
   }
 }))
 
-export const AppHeader = (props) => {
+export const ToDoHeader = (props) => {
   const { classes } = useStyles();
   return (
     <Header data-testid="todo-header">
