@@ -14,9 +14,18 @@ export const SettingsUI = () => {
   } = useContext(SettingsContext)
 
   useEffect(() => {
-    let sortedList = list.sort((a,b) => a[sort] < b[sort] ? -1 : 1);
+    let sortedList = list.sort((a, b) => a[sort] < b[sort] ? -1 : 1);
     setList(sortedList)
   }, [sort])
+
+  useEffect(() => {
+    let storageItem = JSON.stringify({
+      showComplete,
+      itemsPerPage,
+      sort,
+    })
+    localStorage.setItem('settings', storageItem)
+  }, [showComplete, itemsPerPage, sort])
 
   return (
     <>
