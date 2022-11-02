@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { v4 as uuid } from 'uuid';
 import { SettingsContext } from "../../Context/settings";
 import useForm from "../../hooks/form";
+import { Button, Card, Slider, Text, TextInput } from '@mantine/core'
 
 export const Form = () => {
   const { list, setList, defaultValues } = useContext(SettingsContext)
@@ -10,34 +11,41 @@ export const Form = () => {
   function addItem(item) {
     item.id = uuid();
     item.complete = false;
-    console.log('item',item);
+    console.log('item', item);
     if (item.id !== list[list.length - 1]?.id) setList([...list, item]);
-    console.log('list',list[0])
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <Card withBorder shadow='sm'>
+      <form onSubmit={handleSubmit}>
 
-      <h2>Add To Do Item</h2>
+        <Text>Add To Do Item</Text>
 
-      <label>
-        <span>To Do Item</span>
-        <input onChange={handleChange} name="text" type="text" placeholder="Item Details" />
-      </label>
+        <TextInput
+          name="text"
+          label="To Do Item"
+          placeholder="Item Details"
+          onChange={handleChange}
+        />
+        <TextInput
+          name="assignee"
+          label="Assigned To"
+          placeholder="Assignee Name"
+          onChange={handleChange}
+        />
 
-      <label>
-        <span>Assigned To</span>
-        <input onChange={handleChange} name="assignee" type="text" placeholder="Assignee Name" />
-      </label>
-
-      <label>
-        <span>Difficulty</span>
-        <input onChange={handleChange} defaultValue={defaultValues.difficulty} type="range" min={1} max={5} name="difficulty" />
-      </label>
-
-      <label>
-        <button type="submit">Add Item</button>
-      </label>
-    </form>
+        <Text>Difficulty</Text>
+        <Slider
+          name="difficulty"
+          type="range"
+          onChange={handleChange}
+          defaultValue={defaultValues.difficulty}
+          min={0}
+          max={5}
+          mb="lg"
+        />
+        <Button type="submit">Add Item</Button>
+      </form>
+    </Card>
   )
 }

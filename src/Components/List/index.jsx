@@ -1,4 +1,5 @@
-import { Pagination } from '@mantine/core'
+import { Badge, Card, CloseButton, Pagination, Text } from '@mantine/core'
+import './list.scss'
 import { useContext, useState } from "react"
 import { SettingsContext } from "../../Context/settings"
 
@@ -11,6 +12,7 @@ export const List = () => {
   const [page, setPage] = useState(1);
 
   function deleteItem(id) {
+    console.log(id)
     const items = list.filter(item => item.id !== id);
     setList(items);
   }
@@ -32,14 +34,19 @@ export const List = () => {
   return (
     <>
       {listToRender.map(item => (
-        <div key={item.id}>
-          <p>{item.text}</p>
-          <p><small>Assigned to: {item.assignee}</small></p>
-          <p><small>Difficulty: {item.difficulty}</small></p>
-          <p><small>{item.id}</small></p>
-          <div onClick={() => toggleComplete(item.id)}>Complete: {item.complete.toString()}</div>
-          <hr />
-        </div>
+        <Card key={item.id} withBorder shadow="sm" >
+          <Card.Section withBorder className='task-title'>
+            {
+              item.complete
+                ? <Badge color='green' onClick={() => toggleComplete(item.id)}>Complete</Badge>
+                : <Badge color='red' onClick={() => toggleComplete(item.id)}>Pending</Badge>
+            }
+            <Text>{item.assignee}</Text>
+            <CloseButton onClick={() => deleteItem(item.id)}/>
+          </Card.Section>
+          <Card.Section className='task-body'><Text>{item.text}</Text></Card.Section>
+          <Card.Section className='task-difficulty'><Text><small>Difficulty: {item.difficulty}</small></Text></Card.Section>
+        </Card>
       ))}
       {pageCount > 1 ? <Pagination page={page} onChange={setPage} total={pageCount} /> : null}
     </>
