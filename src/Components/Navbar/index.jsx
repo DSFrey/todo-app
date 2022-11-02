@@ -8,6 +8,11 @@ const useStyles = createStyles((theme) => {
       color: theme.colors.gray[0],
       fontSize: theme.colors.md,
       padding: theme.spacing.md,
+      flexDirection: 'row'
+    },
+    anchor: {
+      color: theme.colors.gray[0],
+      padding: '0 1em'
     }
   })
 })
@@ -17,8 +22,8 @@ export const AppNavbar = () => {
 
   return (
     <Navbar className={classes.navbar}>
-      <Anchor component={Link} to='/'>Home</Anchor>
-      <Anchor component={Link} to='/settings'>Settings</Anchor>
+      <Anchor component={Link} to='/' className={classes.anchor}>Home</Anchor>
+      <Anchor component={Link} to='/settings' className={classes.anchor}>Settings</Anchor>
     </Navbar>
   )
 }

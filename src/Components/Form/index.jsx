@@ -12,7 +12,7 @@ export const Form = () => {
     item.id = uuid();
     item.complete = false;
     console.log('item', item);
-    if (item.id !== list[list.length - 1]?.id) setList([...list, item]);
+    setList([...list, item]);
   }
 
   return (
