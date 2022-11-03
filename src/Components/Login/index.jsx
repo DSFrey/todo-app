@@ -8,7 +8,6 @@ export const Login = () => {
   const [password, setPassword] = useState();
   const {
     isLoggedIn,
-    user,
     login,
     logout,
   } = useContext(AuthContext);
@@ -16,8 +15,7 @@ export const Login = () => {
   return (
     isLoggedIn
       ? <div className="login-area">
-        <Text>{user.username}</Text>
-        <Button onClick={() => logout()}>Log Out</Button>
+        <Button color="red" onClick={() => logout()}>Log Out</Button>
       </div>
       : <div className="login-area">
         <TextInput
@@ -30,7 +28,7 @@ export const Login = () => {
           placeholder="Password"
           onChange={(e) => setPassword(e.target.value)}
         />
-        <Button onClick={() => login(username, password)}>Log In</Button>
+        <Button color="green" onClick={() => login(username, password)}>Log In</Button>
       </div>
   )
 }

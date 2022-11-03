@@ -1,0 +1,8 @@
+.login-area {
+  margin-left: auto;
+  display: flex;
+  flex-direction: row;
+  .mantine-TextInput-root, button {
+    margin: 0 3px;
+  }
+}
