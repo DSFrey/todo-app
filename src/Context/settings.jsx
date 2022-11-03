@@ -1,11 +1,17 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 
 const SettingsContext = React.createContext();
 
 const SettingsProvider = ({ children }) => {
-  const [showComplete, setShowComplete] = useState(true)
-  const [itemsPerPage, setItemsPerPage] = useState(3)
-  const [sort, setSort] = useState('difficulty')
+  let settings = JSON.parse(localStorage.getItem('settings')) || {
+    showComplete: true,
+    itemsPerPage: 3,
+    sort: 'difficulty'
+  }
+
+  const [showComplete, setShowComplete] = useState(settings.showComplete)
+  const [itemsPerPage, setItemsPerPage] = useState(settings.itemsPerPage)
+  const [sort, setSort] = useState(settings.sort)
   const [defaultValues, setDefaultValues] = useState({ difficulty: 4 });
   const [list, setList] = useState([]);
   const [incomplete, setIncomplete] = useState([]);
@@ -15,7 +21,7 @@ const SettingsProvider = ({ children }) => {
     itemsPerPage, setItemsPerPage,
     sort, setSort,
     defaultValues, setDefaultValues,
-    list,setList,
+    list, setList,
     incomplete, setIncomplete
   }
 

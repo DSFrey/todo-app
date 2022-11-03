@@ -1,8 +1,8 @@
-import { Grid, Footer } from '@mantine/core'
+/* eslint-disable react-hooks/exhaustive-deps */
+import { Grid } from '@mantine/core'
 import React, { useContext, useEffect } from 'react';
 
-import { AppNavbar } from '../Navbar';
-import { AppHeader } from '../Header';
+import { ToDoHeader } from '../ToDoHeader';
 import { Form } from '../Form/index.jsx';
 import { List } from '../List/index.jsx';
 import { SettingsContext } from '../../Context/settings.jsx';
@@ -11,21 +11,20 @@ import './ToDo.scss';
 
 const ToDo = () => {
 
-  const { list, incomplete, setIncomplete } = useContext(SettingsContext)
+  const {
+    list,
+    incomplete, setIncomplete,
+  } = useContext(SettingsContext)
 
   useEffect(() => {
     let incompleteCount = list.filter(item => !item.complete).length;
     setIncomplete(incompleteCount);
     document.title = `To Do List: ${incomplete}`;
-    // linter will want 'incomplete' added to dependency array unnecessarily. 
-    // disable code used to avoid linter warning 
-    // eslint-disable-next-line react-hooks/exhaustive-deps 
   }, [list]);
 
   return (
     <>
-      <AppNavbar />
-      <AppHeader incomplete={incomplete} />
+      <ToDoHeader incomplete={incomplete}/>
       <Grid className='todo-body'>
         <Grid.Col xs={12} sm={4}>
           <Form />
@@ -34,7 +33,6 @@ const ToDo = () => {
           <List />
         </Grid.Col>
       </Grid>
-      <Footer>&copy; 2022 Code Fellows / Daniel Frey</Footer>
     </>
   );
 };
