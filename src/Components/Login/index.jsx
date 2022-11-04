@@ -1,4 +1,4 @@
-import { Button, Text, TextInput } from "@mantine/core";
+import { Button, PasswordInput, TextInput } from "@mantine/core";
 import { useContext, useState } from "react"
 import { AuthContext } from "../../Context/auth";
 import './login.scss'
@@ -23,7 +23,7 @@ export const Login = () => {
           placeholder="UserName"
           onChange={(e) => setUsername(e.target.value)}
         />
-        <TextInput
+        <PasswordInput
           name="password"
           placeholder="Password"
           onChange={(e) => setPassword(e.target.value)}
