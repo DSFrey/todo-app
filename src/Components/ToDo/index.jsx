@@ -8,6 +8,7 @@ import { List } from '../List/index.jsx';
 import { SettingsContext } from '../../Context/settings.jsx';
 
 import './ToDo.scss';
+import { Auth } from '../Auth';
 
 const ToDo = () => {
 
@@ -23,17 +24,19 @@ const ToDo = () => {
   }, [list]);
 
   return (
-    <>
-      <ToDoHeader incomplete={incomplete}/>
+    <Auth capability="read">
+      <ToDoHeader incomplete={incomplete} />
       <Grid className='todo-body'>
         <Grid.Col xs={12} sm={4}>
-          <Form />
+          <Auth capability="create">
+            <Form />
+          </Auth>
         </Grid.Col>
         <Grid.Col xs={12} sm={8}>
           <List />
         </Grid.Col>
       </Grid>
-    </>
+    </Auth>
   );
 };
 
