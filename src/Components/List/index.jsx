@@ -2,13 +2,16 @@ import { Badge, Card, CloseButton, Pagination, Text } from '@mantine/core'
 import './list.scss'
 import { useContext, useState } from "react"
 import { SettingsContext } from "../../Context/settings"
+import { AuthContext } from '../../Context/auth'
+import { Auth } from '../Auth'
 
 export const List = () => {
   const {
     list, setList,
     itemsPerPage,
-    showComplete
+    showComplete,
   } = useContext(SettingsContext)
+  const { can } = useContext(AuthContext)
   const [page, setPage] = useState(1);
 
   function deleteItem(id) {
@@ -18,6 +21,7 @@ export const List = () => {
   }
 
   function toggleComplete(id) {
+    if (!can('update')) return;
     const items = list.map(item => {
       if (item.id === id) {
         return {
@@ -45,7 +49,7 @@ export const List = () => {
                 : <Badge color='red' onClick={() => toggleComplete(item.id)}>Pending</Badge>
             }
             <Text>{item.assignee}</Text>
-            <CloseButton onClick={() => deleteItem(item.id)}/>
+            <Auth capability="delete"><CloseButton onClick={() => deleteItem(item.id)} /></Auth>
           </Card.Section>
           <Card.Section className='task-body'><Text>{item.text}</Text></Card.Section>
           <Card.Section className='task-difficulty'><Text><small>Difficulty: {item.difficulty}</small></Text></Card.Section>
