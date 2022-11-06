@@ -4,6 +4,7 @@ import { useContext, useState } from "react"
 import { SettingsContext } from "../../Context/settings"
 import { AuthContext } from '../../Context/auth'
 import { Auth } from '../Auth'
+import axios from 'axios'
 
 export const List = () => {
   const {
@@ -11,27 +12,58 @@ export const List = () => {
     itemsPerPage,
     showComplete,
   } = useContext(SettingsContext)
-  const { can } = useContext(AuthContext)
+  const { can, cookies } = useContext(AuthContext)
   const [page, setPage] = useState(1);
 
   function deleteItem(id) {
     console.log(id)
-    const items = list.filter(item => item.id !== id);
-    setList(items);
+    const items = list.filter(item => item._id !== id);
+    try {
+      (async () => {
+        await axios({
+          baseURL: 'https://api-js401.herokuapp.com/',
+          url: `/api/v1/todo/${id}`,
+          method: 'delete',
+          headers: {
+            Authorization: `Bearer: ${cookies.auth}`
+          }
+        });
+        setList(items);
+      })();
+    } catch (error) {
+
+    }
   }
 
   function toggleComplete(id) {
     if (!can('update')) return;
+    let updatedItem;
     const items = list.map(item => {
-      if (item.id === id) {
-        return {
+      if (item._id === id) {
+        updatedItem = {
           ...item,
           complete: !item.complete
         };
+        return updatedItem;
       }
       return item;
     });
-    setList(items);
+    try {
+      (async () => {
+        await axios({
+          baseURL: 'https://api-js401.herokuapp.com/',
+          url: `/api/v1/todo/${id}`,
+          method: 'put',
+          data: updatedItem,
+          headers: {
+            Authorization: `Bearer: ${cookies.auth}`
+          }
+        });
+        setList(items);
+      })();
+    } catch (error) {
+      console.error();
+    }
   }
 
   const filteredList = showComplete ? list : list.filter(item => !item.complete)
@@ -41,15 +73,15 @@ export const List = () => {
   return (
     <>
       {listToRender.map(item => (
-        <Card key={item.id} withBorder shadow="sm" >
+        <Card key={item._id} withBorder shadow="sm" >
           <Card.Section withBorder className='task-title'>
             {
               item.complete
-                ? <Badge color='green' onClick={() => toggleComplete(item.id)}>Complete</Badge>
-                : <Badge color='red' onClick={() => toggleComplete(item.id)}>Pending</Badge>
+                ? <Badge color='green' onClick={() => toggleComplete(item._id)}>Complete</Badge>
+                : <Badge color='red' onClick={() => toggleComplete(item._id)}>Pending</Badge>
             }
             <Text>{item.assignee}</Text>
-            <Auth capability="delete"><CloseButton onClick={() => deleteItem(item.id)} /></Auth>
+            <Auth capability="delete"><CloseButton onClick={() => deleteItem(item._id)} /></Auth>
           </Card.Section>
           <Card.Section className='task-body'><Text>{item.text}</Text></Card.Section>
           <Card.Section className='task-difficulty'><Text><small>Difficulty: {item.difficulty}</small></Text></Card.Section>
