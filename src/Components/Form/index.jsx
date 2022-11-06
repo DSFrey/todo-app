@@ -1,19 +1,29 @@
 import { useContext } from "react";
-import { v4 as uuid } from 'uuid';
 import { SettingsContext } from "../../Context/settings";
 import useForm from "../../hooks/form";
 import { Button, Card, Slider, Text, TextInput } from '@mantine/core'
+import { useAxios } from "../../hooks/api";
+import { cookies } from '../../Context/auth'
 
 export const Form = () => {
   const { list, setList, sort, defaultValues } = useContext(SettingsContext)
   const { handleChange, handleSubmit } = useForm(addItem, defaultValues);
 
   function addItem(item) {
-    item.id = uuid();
     item.complete = false;
+    const { response } = useAxios({
+      baseURL: 'https://api-js401.herokuapp.com/',
+      url: '/api/v1/todo',
+      method: 'post',
+      data: item,
+      headers: {
+        Authorization: `Bearer: ${cookies.auth}`
+      }
+    })
+    item.id = response._id
     console.log('item', item);
     let newList = [...list, item]
-    newList.sort((a,b) => a[sort] < b[sort] ? -1 : 1)
+    newList.sort((a, b) => a[sort] < b[sort] ? -1 : 1)
     setList(newList);
   }
 
