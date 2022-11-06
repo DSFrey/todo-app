@@ -1,7 +1,7 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Grid } from '@mantine/core'
-import React, { useContext, useEffect } from 'react';
+import { Grid, Text } from '@mantine/core'
+import React, { useContext, useEffect, useState } from 'react';
+import axios from "axios";
 
 import { ToDoHeader } from '../ToDoHeader';
 import { Form } from '../Form/index.jsx';
@@ -10,28 +10,32 @@ import { List } from '../List/index.jsx';
 import { Auth } from '../Auth';
 import { AuthContext } from '../../Context/auth';
 import { SettingsContext } from '../../Context/settings.jsx';
-import { useAxios } from '../../hooks/api';
 import './ToDo.scss';
 
 const ToDo = () => {
-
+  const [loading, setLoading] = useState(true)
   const { cookies } = useContext(AuthContext)
   const {
+    sort,
     list, setList,
     incomplete, setIncomplete,
   } = useContext(SettingsContext)
 
   useEffect(() => {
     try {
-      let retrievedList = useAxios({
-        baseURL: 'https://api-js401.herokuapp.com/',
-        url: `/api/v1/todo/`,
-        method: 'get',
-        headers: {
-          Authorization: `Bearer: ${cookies.auth}`
-        }
-      })
-      setList(retrievedList);
+      (async () => {
+        let response = await axios({
+          baseURL: 'https://api-js401.herokuapp.com/',
+          url: `/api/v1/todo/`,
+          method: 'get',
+          headers: {
+            Authorization: `Bearer: ${cookies.auth}`
+          }
+        })
+        let newList = response.data.results.sort((a, b) => a[sort] < b[sort] ? -1 : 1)
+        setList(newList);
+        setLoading(false);
+      })();
     } catch (error) {
       console.error();
     }
@@ -53,7 +57,9 @@ const ToDo = () => {
           </Auth>
         </Grid.Col>
         <Grid.Col xs={12} sm={8}>
-          <List />
+          {loading
+            ? <Text> Loading...</Text>
+            : <List />}
         </Grid.Col>
       </Grid>
     </Auth>

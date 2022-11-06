@@ -2,7 +2,8 @@
 import React, { useEffect, useState } from "react";
 import { useCookies } from 'react-cookie'
 import jwt_decode from 'jwt-decode';
-import { useAxios } from "../hooks/api";
+import axios from "axios";
+
 
 export const AuthContext = React.createContext();
 
@@ -34,8 +35,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = (username, password) => {
     try {
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      const { response, error } = useAxios({
+      axios({
         baseURL: 'https://api-js401.herokuapp.com/',
         url: '/signin',
         method: 'post',
@@ -44,8 +44,7 @@ export const AuthProvider = ({ children }) => {
           password
         }
       })
-      setError(error)
-      _validateToken(response.token);
+      .then(response => _validateToken(response.data.token));
     } catch (e) {
       setError(e);
       console.error(e);
