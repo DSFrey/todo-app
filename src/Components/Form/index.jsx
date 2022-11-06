@@ -3,14 +3,16 @@ import { SettingsContext } from "../../Context/settings";
 import useForm from "../../hooks/form";
 import { Button, Card, Slider, Text, TextInput } from '@mantine/core'
 import { useAxios } from "../../hooks/api";
-import { cookies } from '../../Context/auth'
+import { AuthContext } from '../../Context/auth'
 
 export const Form = () => {
   const { list, setList, sort, defaultValues } = useContext(SettingsContext)
+  const { cookies } = useContext(AuthContext);
   const { handleChange, handleSubmit } = useForm(addItem, defaultValues);
 
   function addItem(item) {
     item.complete = false;
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const { response } = useAxios({
       baseURL: 'https://api-js401.herokuapp.com/',
       url: '/api/v1/todo',

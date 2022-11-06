@@ -1,9 +1,11 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { Badge, Card, CloseButton, Pagination, Text } from '@mantine/core'
 import './list.scss'
 import { useContext, useState } from "react"
 import { SettingsContext } from "../../Context/settings"
 import { AuthContext } from '../../Context/auth'
 import { Auth } from '../Auth'
+import { useAxios } from '../../hooks/api'
 
 export const List = () => {
   const {
@@ -11,27 +13,54 @@ export const List = () => {
     itemsPerPage,
     showComplete,
   } = useContext(SettingsContext)
-  const { can } = useContext(AuthContext)
+  const { can, cookies } = useContext(AuthContext)
   const [page, setPage] = useState(1);
 
   function deleteItem(id) {
     console.log(id)
-    const items = list.filter(item => item.id !== id);
-    setList(items);
+    try {
+      useAxios({
+        baseURL: 'https://api-js401.herokuapp.com/',
+        url: `/api/v1/todo/${id}`,
+        method: 'delete',
+        headers: {
+          Authorization: `Bearer: ${cookies.auth}`
+        }
+      })
+      const items = list.filter(item => item.id !== id);
+      setList(items);
+    } catch (error) {
+      
+    }
   }
 
   function toggleComplete(id) {
     if (!can('update')) return;
+    let updatedItem;
     const items = list.map(item => {
       if (item.id === id) {
-        return {
+        updatedItem = {
           ...item,
           complete: !item.complete
         };
+        return updatedItem;
       }
       return item;
     });
-    setList(items);
+    try {
+      useAxios({
+        baseURL: 'https://api-js401.herokuapp.com/',
+        url: `/api/v1/todo/${id}`,
+        method: 'put',
+        data: updatedItem,
+        headers: {
+          Authorization: `Bearer: ${cookies.auth}`
+        }
+      })
+      setList(items);
+    } catch (error) {
+      console.error();
+    }
   }
 
   const filteredList = showComplete ? list : list.filter(item => !item.complete)
