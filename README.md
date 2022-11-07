@@ -18,6 +18,10 @@ The To Do Manager application has the following overall requirements:
     - When a user is logged in:
       - Show a “Logout” link
         - When clicked, this should remove any cookies you have set and remove access
+    - Available test users:
+      - username: `user`, password: `USER`
+      - username: `editor`, password: `EDITOR`
+      - username: `admin`, password: `ADMIN`
 - In the “Main” section
   - Nothing should be visible until a user has logged in successfully
   - The list of items in the to do list
